@@ -1,0 +1,146 @@
+package arbolesBinarios;
+import java.util.Scanner;
+
+public class Nodo {
+	Persona p;
+	Nodo izq;
+	Nodo der;
+
+	public Nodo(Persona p) {
+		this.p = p;
+		this.izq = null;
+		this.der = null;
+	}
+	
+	public Nodo(){
+		this.p = null;
+		this.izq = null;
+		this.der = null;
+	}
+
+	public Nodo crearNodo() {
+		Scanner key = new Scanner(System.in);
+		System.out.print("Nombre: ");
+		String nombre = key.next();
+		System.out.print("Cedula: ");
+		long cedula = key.nextLong();
+		Nodo n = new Nodo(new Persona(cedula, nombre));
+		return n;
+	}
+
+	public String toString() {
+		return p.nombre +p + "{" + izq + ", " + der + "}";
+	}
+
+}
+
+package arbolesBinarios;
+ 
+public class ArbolBinario {
+    static Nodo raiz;
+ 
+    public ArbolBinario() {
+        this.raiz = null;
+    }
+ 
+    public void insertarNodo(Nodo n) {
+        if (raiz == null) {
+            raiz = n;
+        } else {
+            Nodo aux = raiz;
+            Nodo padre;
+            while (true) {
+                padre = aux;
+                if (n.p.cedula < padre.p.cedula) {
+                    aux = aux.izq;
+                    if (aux == null) {
+                        padre.izq = n;
+                        return;
+                    }
+                } else {
+                    aux = aux.der;
+                    if (aux == null) {
+                        padre.der = n;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    
+    public static Nodo buscarNodo(long ced){
+    	if (raiz == null) {
+    		System.out.println("Arbol vacío");
+			return null;
+		}
+    	Nodo aux = raiz;
+    	while(aux.p.cedula != ced){
+    		if (ced < aux.p.cedula) {
+				aux = aux.izq;
+			}else{
+				aux = aux.der;
+				}
+    		if (aux == null) {
+    			return null;
+			}
+    	}
+    	return aux;
+    }
+    public String toString(){
+        return ""+raiz;
+    }
+}
+
+package arbolesBinarios;
+public class Persona {
+	long cedula;
+	String nombre;
+
+	public Persona(long ced, String name) {
+		this.cedula = ced;
+		this.nombre = name;
+	}
+
+	public Persona() {
+		this.cedula = 0;
+		this.nombre = "NuevoNombre";
+	}
+
+	public String toString(){
+		return "["+this.cedula+", "+this.nombre+"]";
+	}
+}
+package arbolesBinarios;
+
+import java.util.Scanner;
+
+public class Principal {
+	public static void main(String[] args) {
+		ArbolBinario arbol = new ArbolBinario();
+		arbol = File.leerArchivo();
+		System.out.print("Buscar: ");
+		Scanner key = new Scanner(System.in);
+		long x = key.nextLong();
+		Nodo r = new Nodo();
+		r = ArbolBinario.buscarNodo(x);
+		if (r != null) {
+			System.out.println("Resultado para '" + x + "': " + r.p.nombre);
+		} else {
+			System.out.println("No existe en arbol");
+		}
+	}
+
+	public static void llenarArbol() {
+		Scanner key = new Scanner(System.in);
+		ArbolBinario arbol = new ArbolBinario();
+		System.out.print("Ingrese cantidad de nodos: ");
+		int x = key.nextInt();
+		for (int i = 0; i < x; i++) {
+			Nodo n = new Nodo();
+			n = n.crearNodo();
+			arbol.insertarNodo(n);
+		}
+		System.out.println(arbol);
+	}
+
+}
