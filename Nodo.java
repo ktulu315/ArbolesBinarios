@@ -1,4 +1,5 @@
 package arbolesBinarios;
+
 import java.util.Scanner;
 
 public class Nodo {
@@ -11,8 +12,8 @@ public class Nodo {
 		this.izq = null;
 		this.der = null;
 	}
-	
-	public Nodo(){
+
+	public Nodo() {
 		this.p = null;
 		this.izq = null;
 		this.der = null;
@@ -29,7 +30,7 @@ public class Nodo {
 	}
 
 	public String toString() {
-		return p.nombre +p + "{" + izq + ", " + der + "}";
+		return p + "{" + izq + ", " + der + "}";
 	}
 
 }
